@@ -1,0 +1,214 @@
+//主体布局容器
+#layout {
+    width: 100%;
+    max-width: 640px;
+    min-width: 320px;
+    margin: 0px auto;
+    height: 1000px;
+    background-color: #f0f0f0;
+    position: relative;
+}
+
+// 头部区域
+#header {
+    position: fixed;
+    //因为100%相对body在PC太大 也限定只能到640px
+    max-width: 640px;
+    min-width: 320px;
+    top: 0;
+    // 固定定位元素的宽度100%是相对于 body
+    width: 100%;
+    z-index: 2;
+    >.icon-logo {
+        background-image: url(../images/sprites.png);
+        // 因为图片比真实放到页面上的大1倍 所以要缩小一倍插进来
+        background-size: 200px 200px;
+        background-position: 0 -109px;
+        width: 60px;
+        height: 24px;
+        position: absolute;
+        left: 10px;
+        top: 10px;
+    }
+    >form {
+        padding-left: 70px;
+        padding-top: 5px;
+        padding-right: 50px;
+        width: 100%;
+        height: 40px;
+        >.icon-search {
+            background-image: url(../images/sprites.png);
+            // 因为图片比真实放到页面上的大1倍 所以要缩小一倍插进来
+            background-size: 200px 200px;
+            background-position: -60px -109px;
+            width: 20px;
+            height: 20px;
+            position: absolute;
+            left: 73px;
+            top: 10px;
+        }
+        >input {
+            height: 30px;
+            border-radius: 15px;
+            width: 100%;
+            padding-left: 25px;
+        }
+    }
+    >.login {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        color: #fff;
+    }
+}
+
+//轮播图区域
+#slide {
+    img {
+        width: 100%;
+    }
+}
+
+//导航区域
+#navs {
+    background-color: #fff;
+    overflow: hidden;
+    >ul {
+        margin: 10px 0;
+        >li {
+            width: 25%;
+            float: left;
+            >a {
+                text-align: center;
+                display: block;
+                >img {
+                    width: 60%;
+                    margin-top: 5px;
+                }
+                >p {
+                    font-size: 14px;
+                    margin-top: 5px;
+                }
+            }
+        }
+    }
+}
+
+//主体商品区域
+#products {
+    //秒杀商品
+    padding: 15px 5px;
+    >.seckill {
+        background-color: #fff;
+        >.seckill-heading {
+            padding: 0 10px;
+            height: 40px;
+            line-height: 40px;
+            >.seckill-icon {
+                width: 20px;
+                height: 25px;
+                float: left;
+                margin-top: 5px;
+            }
+            >.seckill-name {
+                margin-left: 5px;
+                float: left;
+                font-size: 14px;
+                color: #d8505c;
+            }
+            >.seckill-downtime {
+                float: left;
+                margin-left: 5px;
+                margin-top: 12px;
+                >span {
+                    background-color: #000;
+                    color: #fff;
+                    width: 15px;
+                    height: 15px;
+                    float: left;
+                    line-height: 15px;
+                    margin-left: 5px;
+                    text-align: center;
+                    // 选中当前元素父元素下第3n个子元素 而且还必须是当前元素(span)
+                    &:nth-child(3n) {
+                        background-color: #fff;
+                        color: #000;
+                    }
+                }
+            }
+            >.seckill-more {
+                float: right;
+                font-size: 14px;
+            }
+        }
+        >.seckill-body {
+            padding-top: 10px;
+            >ul {
+                >li {
+                    width: calc(100% / 3);
+                    float: left;
+                    >a {
+                        text-align: center;
+                        display: block;
+                        >img {
+                            width: 60%;
+                        }
+                        >p {
+                            font-size: 12px;
+                            //选中当前元素的父元素下的第一个子元素还必须是p元素
+                            // &:first-child
+                            //选中当前元素的父元素下的第一个p元素
+                            &:first-of-type {
+                                color: #d8505c;
+                            }
+                            &:last-child {
+                                color: #000;
+                                text-decoration: line-through;
+                            }
+                        }
+                    }
+                    &+li {
+                        border-left: 1px solid #ccc;
+                    }
+                }
+            }
+        }
+    }
+    //普通商品
+    >.product{
+        background-color: #fff;
+        margin-top: 10px;
+
+        >.product-heading{
+            >h4{
+                font-weight: normal;
+                position: relative;
+                padding-left: 20px;
+                height: 30px;
+                line-height: 30px;
+                border-bottom: 1px solid #ccc;
+                &::before{
+                    content:"";
+                    width: 4px;
+                    height: 15px;
+                    background-color: #d8505c;
+                    position: absolute;
+                    left: 10px;
+                    top: 7px;
+                }
+            }
+        }
+        >.product-body{
+            >div{
+                >a{
+                    display: block;
+                    >img{
+                        width: 100%;
+                    }
+                }
+            }
+        }
+    }
+}
+
+

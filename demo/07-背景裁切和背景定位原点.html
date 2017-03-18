@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <style>
+    body {
+        background-color: #f0f0f0;
+    }
+    
+    .box {
+        width: 600px;
+        height: 600px;
+        padding: 50px;
+        border: 50px solid transparent;
+        box-sizing: border-box;
+        background-image: url(../images/sprites.png);
+        background-repeat: no-repeat;
+        /*背景裁切 默认是border-box在border区域也有背景图*/
+        /*background-clip: padding-box;*/
+        /*背景图的定位原点 默认的padding-box*/
+        /*background-origin: border-box;*/
+        /*只在内容区域显示背景*/
+        /*1.把内容区域以外的背景都裁切掉*/
+        /*2.把背景图的定位原点设置到内容区域content-box*/
+        background-clip: content-box;
+        -webkit-background-origin: content-box;
+        background-origin: content-box;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="box"></div>
+</body>
+
+</html>

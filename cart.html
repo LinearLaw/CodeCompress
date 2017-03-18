@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>购物车</title>
+    <!-- 基础的样式 -->
+    <link rel="stylesheet/less" href="less/base.less">
+    <!-- 当前页面的样式 -->
+    <link rel="stylesheet/less" href="less/cart.less">
+    <!-- less编译器 -->
+    <script src="lib/less/less.js"></script>
+</head>
+
+<body>
+    <!-- 头部区域 -->
+    <header id="header">
+        <!-- 返回按钮 -->
+        <a href="index.html" class="icon-back"></a>
+        <!-- 标题内容 -->
+        <h3>购物车</h3>
+        <!-- 菜单按钮 -->
+        <a href="#" class="icon-menu"></a>
+    </header>
+    <!-- 安全提示 -->
+    <section id="safe">
+        <span>您在安全的购物环境中,请放心购物</span>
+    </section>
+    <!-- 购物车的商品 -->
+    <main id="shops">
+        <div class="shop">
+            <div class="shop-heading">
+                <a href="#" class="checkbox"></a>
+                <img src="images/buy-logo.png" alt="" class="shop-img">
+                <span class="shop-name">京东自营</span>
+                <span class="shop-service">您享受79元免运费的服务</span>
+            </div>
+            <div class="shop-body">
+                <div class="product">
+                    <a href="#" class="checkbox"></a>
+                    <div class="product-body">
+                        <div class="product-img">
+                            <img src="images/detail01.jpg" alt="">
+                        </div>
+                        <div class="product-info">
+                            <div class="product-name">
+                                华为（HUAWEI）荣耀平板优享版 Wifi 8英寸平板电脑（高通骁龙 64位四核1280×800 2G/16G 4800mAh）香槟金
+                            </div>
+                            <div class="product-price">¥1000.00</div>
+                            <div class="product-option">
+                                <div class="product-count">
+                                    <span>-</span>
+                                    <input type="number"><span>+</span>
+                                </div>
+                                <div class="product-delete">
+                                    <span></span>
+                                    <span></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="product">
+                    <a href="#" class="checkbox"></a>
+                    <div class="product-body">
+                        <div class="product-img">
+                            <img src="images/detail01.jpg" alt="">
+                        </div>
+                        <div class="product-info">
+                            <div class="product-name">
+                                华为（HUAWEI）荣耀平板优享版 Wifi 8英寸平板电脑（高通骁龙 64位四核1280×800 2G/16G 4800mAh）香槟金
+                            </div>
+                            <div class="product-price">¥1000.00</div>
+                            <div class="product-option">
+                                <div class="product-count">
+                                    <span>-</span>
+                                    <input type="number"><span>+</span>
+                                </div>
+                                <div class="product-delete">
+                                    <span></span>
+                                    <span></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="product">
+                    <a href="#" class="checkbox"></a>
+                    <div class="product-body">
+                        <div class="product-img">
+                            <img src="images/detail01.jpg" alt="">
+                        </div>
+                        <div class="product-info">
+                            <div class="product-name">
+                                华为（HUAWEI）荣耀平板优享版 Wifi 8英寸平板电脑（高通骁龙 64位四核1280×800 2G/16G 4800mAh）香槟金
+                            </div>
+                            <div class="product-price">¥1000.00</div>
+                            <div class="product-option">
+                                <div class="product-count">
+                                    <span>-</span>
+                                    <input type="number"><span>+</span>
+                                </div>
+                                <div class="product-delete">
+                                    <span></span>
+                                    <span></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <!-- 遮罩层 -->
+    <footer id="mask">
+        <!-- 弹出框 -->  
+        <!-- zoomOutUp 动画加上去之后要等div出现在页面上的时候才开始动 -->
+        <div class="model zoomOutUp">
+            <div class="model-heading">
+                您确定要删除商品吗?
+            </div>
+            <div class="model-body">
+                <a href="#" class="btn-cancel">取消</a>
+                <a href="#" class="btn-confirm">确定</a>
+            </div>
+        </div>
+    </footer>
+    <script src="lib/zepto/zepto.min.js"></script>
+    <script src="js/cart.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,300 @@
+//头部区域
+#header {
+    background-image: url(../images/header-bg.png);
+    height: 40px;
+    line-height: 40px;
+    >.icon-back {
+        background-image: url(../images/sprites.png);
+        // 因为图片比真实放到页面上的大1倍 所以要缩小一倍插进来
+        background-size: 200px 200px;
+        background-position: -20px 0;
+        width: 40px;
+        height: 40px;
+        position: absolute;
+        padding: 10px;
+        //背景裁切 除了内容区域有背景别的地方都没有背景
+        background-clip: content-box;
+        //背景定位的原点 改成从content区域开始
+        background-origin: content-box;
+    }
+    >h3 {
+        text-align: center;
+        font-weight: normal;
+    }
+    >.icon-menu {
+        background-image: url(../images/sprites.png);
+        // 因为图片比真实放到页面上的大1倍 所以要缩小一倍插进来
+        background-size: 200px 200px;
+        background-position: -60px 0;
+        width: 40px;
+        height: 40px;
+        position: absolute;
+        right: 0;
+        top: 0;
+        padding: 10px;
+        //背景裁切 除了内容区域有背景别的地方都没有背景
+        background-clip: content-box;
+        //背景定位的原点 改成从content区域开始
+        background-origin: content-box;
+    }
+}
+
+//安全提示
+#safe {
+    text-align: center;
+    border-bottom: 1px solid #ccc;
+    line-height: 30px;
+    >span {
+        position: relative;
+        padding-left: 20px;
+        &::before {
+            content: "";
+            width: 18px;
+            height: 18px;
+            background-image: url(../images/safe_icon.png);
+            background-size: 18px 18px;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+    }
+}
+
+//商品区域
+#shops {
+    >.shop {
+        >.shop-heading {
+            line-height: 40px;
+            border-bottom: 1px solid #ccc;
+            >.shop-img {
+                width: 23px;
+            }
+            >.shop-name {}
+            >.shop-service {
+                float: right;
+                font-size: 12px;
+                color: #d8505c;
+            }
+        }
+        >.shop-body {
+            >.product {
+                padding: 10px 0;
+                border-bottom: 1px solid #ccc;
+                >.checkbox {
+                    float: left;
+                }
+                >.product-body {
+                    //隐藏溢出部分 排除掉左边浮动的checkbox区域
+                    overflow: hidden;
+                    >.product-img {
+                        float: left;
+                        >img {
+                            width: 80px;
+                            height: 80px;
+                        }
+                    }
+                    >.product-info {
+                        overflow: hidden;
+                        padding: 0 10px;
+                        >.product-name {
+                            height: 30px;
+                            line-height: 15px;
+                            font-size: 14px;
+                            // 为了隐藏溢出的文字
+                            overflow: hidden;
+                        }
+                        >.product-price {
+                            color: #d8505c;
+                        }
+                        >.product-option {
+                            >.product-count {
+                                float: left;
+                                >span {
+                                    float: left;
+                                    width: 25px;
+                                    height: 25px;
+                                    border: 1px solid #ccc;
+                                    line-height: 20px;
+                                    text-align: center;
+                                }
+                                >input {
+                                    width: 25px;
+                                    height: 25px;
+                                    float: left;
+                                    text-align: center;
+                                    border-top: 1px solid #ccc;
+                                    border-bottom: 1px solid #ccc;
+                                }
+                            }
+                            >.product-delete {
+                                float: right;
+                                >span {
+                                    &:first-child {
+                                        width: 18px;
+                                        height: 4px;
+                                        background-image: url(../images/delete_up.png);
+                                        background-size: 18px 4px;
+                                        display: block;
+                                        margin-left: -1px;
+                                    }
+                                    &:last-child {
+                                        display: block;
+                                        width: 16px;
+                                        height: 16px;
+                                        background-image: url(../images/delete_down.png);
+                                        background-size: 16px 16px;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+.checkbox {
+    background-image: url(../images/shop-icon.png);
+    background-size: 50px 100px;
+    width: 40px;
+    height: 40px;
+    padding: 10px;
+    // 除了内容区域以外的背景都裁切掉
+    background-clip: content-box;
+    //同时把背景定位也调整到从内部部分开始
+    background-origin: content-box;
+    float: left;
+}
+
+.checkbox[checked] {
+    background-position: -25px 0;
+}
+
+#mask {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    >.model {
+        width: 80%;
+        height: 140px;
+        background-color: #fff;
+        margin: 150px auto;
+        >.model-heading {
+            line-height: 70px;
+            text-align: center;
+            border-bottom: 1px solid #ccc;
+        }
+        >.model-body {
+            text-align: center;
+            line-height: 70px;
+            >.btn-cancel {
+                width: 40%;
+                height: 40px;
+                line-height: 40px;
+                text-align: center;
+                border: 1px solid #ccc;
+                background-color: #fff;
+                color: #000;
+                display: inline-block;
+                border-radius: 5px;
+            }
+            >.btn-confirm {
+                width: 40%;
+                height: 40px;
+                line-height: 40px;
+                text-align: center;
+                border: 1px solid #d8505c;
+                background-color: #d8505c;
+                color: #fff;
+                display: inline-block;
+                border-radius: 5px;
+            }
+        }
+    }
+}
+
+// 动画
+@keyframes bounceInDown {
+    from,
+    60%,
+    75%,
+    90%,
+    to {
+        -webkit-animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+        animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+    }
+    0% {
+        opacity: 0;
+        -webkit-transform: translate3d(0, -3000px, 0);
+        transform: translate3d(0, -3000px, 0);
+    }
+    60% {
+        opacity: 1;
+        -webkit-transform: translate3d(0, 25px, 0);
+        transform: translate3d(0, 25px, 0);
+    }
+    75% {
+        -webkit-transform: translate3d(0, -10px, 0);
+        transform: translate3d(0, -10px, 0);
+    }
+    90% {
+        -webkit-transform: translate3d(0, 5px, 0);
+        transform: translate3d(0, 5px, 0);
+    }
+    to {
+        -webkit-transform: none;
+        transform: none;
+    }
+}
+
+.bounceInDown {
+    //调用动画必须写事件
+    animation: bounceInDown 1s;
+}
+
+@-webkit-keyframes zoomOutUp {
+    40% {
+        opacity: 1;
+        -webkit-transform: scale3d(.475, .475, .475) translate3d(0, 60px, 0);
+        transform: scale3d(.475, .475, .475) translate3d(0, 60px, 0);
+        -webkit-animation-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190);
+        animation-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190);
+    }
+    to {
+        opacity: 0;
+        -webkit-transform: scale3d(.1, .1, .1) translate3d(0, -2000px, 0);
+        transform: scale3d(.1, .1, .1) translate3d(0, -2000px, 0);
+        -webkit-transform-origin: center bottom;
+        transform-origin: center bottom;
+        -webkit-animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1);
+        animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1);
+    }
+}
+
+@keyframes zoomOutUp {
+    40% {
+        opacity: 1;
+        -webkit-transform: scale3d(.475, .475, .475) translate3d(0, 60px, 0);
+        transform: scale3d(.475, .475, .475) translate3d(0, 60px, 0);
+        -webkit-animation-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190);
+        animation-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190);
+    }
+    to {
+        opacity: 0;
+        -webkit-transform: scale3d(.1, .1, .1) translate3d(0, -2000px, 0);
+        transform: scale3d(.1, .1, .1) translate3d(0, -2000px, 0);
+        -webkit-transform-origin: center bottom;
+        transform-origin: center bottom;
+        -webkit-animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1);
+        animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1);
+    }
+}
+
+.zoomOutUp {
+    animation: zoomOutUp 2s;
+}
