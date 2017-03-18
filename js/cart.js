@@ -6,6 +6,7 @@
  */
 
 'use strict';
+//点击删除按钮，遮罩层显示和隐藏
 $(function () {
 	$('.product-delete').on('click',function () {
 		$('#mask').show();
@@ -14,8 +15,4 @@ $(function () {
 		$('#mask').hide();
 	});
 });
-// window.addEventListener('load', function() {
-//     document.querySelectorAll('.product-delete').addEventListener('click', function() {
-//         console.log(this);
-//     });
-// });
+
