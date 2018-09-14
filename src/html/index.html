@@ -1,0 +1,219 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Chat Area</title>
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <meta name="apple-mobile-web-app-capable" content="no" />
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="../js/assets/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/common.css" />
+    <link rel="stylesheet" type="text/css" href="../css/index.css" />
+</head>
+
+<body>
+    <!-- header -->
+    <div class="header">
+        <div class="container">
+            <nav class="navbar navbar-inverse">
+                <div class="container-fluid">
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="/html/list.html">Chat Room</a>
+                    </div>
+
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <ul class="nav navbar-nav navbar-right">
+                            <!-- <li><a href="#"></a></li> -->
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">My Profile <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="/html/profile.html">Profile</a></li>
+                                    <!-- <li><a href="#">Setting</a></li> -->
+                                    <li role="separator" class="divider"></li>
+                                    <li data-toggle="modal" data-target="#logOutModal"><a href="#">Log Out</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- /.navbar-collapse -->
+                </div>
+                <!-- /.container-fluid -->
+            </nav>
+        </div>
+    </div>
+    <div class="container commentBox">
+        <div class="col-sm-4 hidden-xs roomInfo">
+            <!-- roomInfo -->
+        </div>
+        <script type="text/html" id="roomInfo">
+            <div class="media roomAvatarBox">
+                <div class="media-left">
+                    <img class="media-object roomAvatar" src="{{roomAvatar}}" alt="...">
+                </div>
+                <div class="media-body">
+                    <h4 class="media-heading roomTitle">{{roomName}}</h4>
+                    <div class="userInfoCount">
+                        <span class="glyphicon glyphicon-user"></span>
+                        <span class="iconUserCount"></span>
+                    </div>
+                    <div>
+                        <span>Manager: </span>
+                        <span class="roomManage">{{username}}</span>
+                    </div>
+                    <div>
+                        <span class="createTime">{{timeText}}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-body">{{roomDesc}}</div>
+            </div>
+        </script>
+        <div class="layout">
+            <div class="comment-input" style="bottom: 0;top: auto;">
+                <div class="form-comment">
+                    <input type="text" placeholder="说两句">
+                </div>
+                <div class="form-btn" onclick="report()">
+                    <input value="发表" type="button">
+                </div>
+            </div>
+            <div class="userInfo">
+                <span class="glyphicon glyphicon-chevron-left backToList"></span>
+                <span class="roomInfoNum"></span>
+                <span class="userInfoName"></span>
+                <span class="glyphicon glyphicon-th pull-right visible-xs-block seeRoomInfo" data-toggle="modal" data-target="#roomInfoModal"></span>
+            </div>
+            <div class="comment-area">
+                <!-- comment area -->
+            </div>
+            <!-- template 1  commentTpl-->
+            <script type="text/html" id="cmtTpl">
+                <div class="comment-item" nowtime="{{nowTime}}">
+                    <a href="#" class="avatar">
+                        {{if userAvatar}}
+                        <img src="{{userAvatar}}" alt="">
+                        {{else}}
+                        <span> {{userSingleWord}} </span>
+                        {{/if}}
+                    </a>
+                    <div class="content">
+                        <div class="from">
+                            <span class="name"> {{userName}} </span>
+                            <span class="date"> {{time}}  </span>
+                        </div>
+                        <div class="message">
+                            {{content}}
+                            <div class="sayContent">
+                                <span class="dianzan" onclick="dianzan(this)" nowtime="{{nowTime}}">
+                                    <img class="thumpBtn" src="../img/icon/zan.png">
+                                    <img class="alreadyThumps" src="../img/icon/zan1.png" alt="">
+                                    <em>0</em>
+                                </span>
+                                <!-- <span class="plContent" onclick="plContent(this)">
+                                    <img src="../img/edit.png">
+                                    <em>评论</em>
+                                </span> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </script>
+
+            <!-- template 1  link msg-->
+            <script type="text/html" id="onePsnLink">
+                <div class="comment-item">
+                    <div class="exitChatBox">
+                        <span class="exitChat">
+                            <span> {{infoTop}} </span>
+                            <span class="exitName">{{infoMiddle}}</span>
+                            <span>{{infoBottom}}</span>
+                        </span>
+                    </div>
+                </div>
+            </script>
+        </div>
+    </div>
+
+    <!-- 提示信息 -->
+    <!--<div class="toast-wrap" style="z-index: 45;">
+        <span class="toast-msg"></span>
+    </div>-->
+
+    <!-- modal 1  logout-->
+    <div class="modal fade bs-example-modal-sm" id="logOutModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    Log Out Now ?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="logOutBtn">Log Out</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- modal 2  room Info -->
+    <div class="modal fade bs-example-modal-sm" id="roomInfoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="roomInfoModalTitle">RoomInfo</h4>
+                </div>
+                <div class="modal-body roomInfoBody">
+                    <!-- id:roomModalTpl -->
+                </div>
+                <script type="text/html" id="roomModalTpl">
+                    <div class="userInfoCount mg-b-5">
+                        People Count:
+                        <span class="glyphicon glyphicon-user"></span>
+                        <span class="iconUserCount"></span>
+                    </div>
+                    <p class="mg-b-5">Manager: {{username}}</p>
+                    <p class="mg-b-5 createTime">Create Time: {{timeText}}</p>
+                    <p class="mg-b-5"><h4>{{roomDesc}}</h3></p>
+                </script>
+            </div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript" src="../js/assets/jquery/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="../js/assets/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../js/assets/art-template/art-template.min.js"></script>
+<script type="text/javascript" src="../js/assets/js-url/url.min.js"></script>
+<script type="text/javascript" src="/socket.io/socket.io.js"></script>
+<script type="text/javascript" src="../js/header.js"></script>
+<script type="text/javascript" src="../js/utils.js"></script>
+<script type="text/javascript" src="../js/chat.js"></script>
+<script>
+    //换单位 px ——> rem
+    (function (doc, win) {
+        var docEl = doc.documentElement,
+            resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+            recalc = function () {
+                var clientWidth = docEl.clientWidth;
+                if (!clientWidth) return;
+                docEl.style.fontSize = 100 * (clientWidth / 720) + 'px';
+                if (docEl.style.fontSize.replace(/px/, '') > 100) docEl.style.fontSize = '100px';
+            };
+        if (!doc.addEventListener) return;
+        win.addEventListener(resizeEvt, recalc, false);
+        doc.addEventListener('DOMContentLoaded', recalc, false);
+    })(document, window);
+</script>
+
+
+</html>

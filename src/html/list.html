@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Room List</title>
+    <link rel="stylesheet" href="../js/assets/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/list.css">
+</head>
+
+<body>
+    <!-- header -->
+    <div class="header">
+        <div class="container">
+            <nav class="navbar navbar-inverse">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="/html/list.html">Chat Room</a>
+                    </div>
+
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <ul class="nav navbar-nav navbar-right">
+                            <!-- <li><a href="#"></a></li> -->
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">My Profile <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="/html/profile.html">Profile</a></li>
+                                    <!-- <li><a href="#">Setting</a></li> -->
+                                    <li role="separator" class="divider"></li>
+                                    <li data-toggle="modal" data-target="#logOutModal"><a href="#">Log Out</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- /.navbar-collapse -->
+                </div>
+                <!-- /.container-fluid -->
+            </nav>
+        </div>
+    </div>
+    <!-- main -->
+    <div class="container">
+
+        <div class="col-lg-4 visible-lg-block leftContent">
+            <label for="avatarInputHeader">
+                <div class="imgBox leftNormal">
+                    <img id="headerAvatar" src="" alt="" class="img-rounded">
+                    <span class="glyphicon glyphicon-user"></span>
+                </div>
+            </label>
+            <input type="file" id="avatarInputHeader" style="display:none;" accept="image/*">
+
+            <div class="leftNormal">
+                <h3>Welcome, <span class="welcomeName"></span></h3>
+                <a href="/html/profile.html">
+                    <button type="button" class="btn btn-default btn-lg btn-block">My Profile</button>
+                </a>
+            </div>
+
+        </div>
+        <div class="col-lg-8 col-xs-12 roomListBox">
+            <div class="mg_b_15">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Create Room</button>
+            </div>
+            <div class="roomListContainer">
+                <!-- <div class="roomListItem"></div> -->
+            </div>
+            <div class="btn btn-default navbar-btn col-xs-12 refreshList">
+                <span class="glyphicon glyphicon-refresh roundFresh"></span>
+                Load More
+            </div>
+        </div>
+    </div>
+    <!-- modal -->
+    <div class="modal fade bs-example-modal-sm" id="logOutModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    Log Out Now ?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="logOutBtn">Log Out</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close closeRoomCreate" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Create Room</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="romeName">Room Title</label>
+                        <input type="text" class="form-control" id="romeName" placeholder="Room name">
+                    </div>
+                    <div class="form-group">
+                        <label for="roomDesc">Room Description</label>
+                        <input type="text" class="form-control" id="roomDesc" placeholder="Room description">
+                    </div>
+                    <div class="form-group uploadImg">
+                        <label for="avatarInput">
+                            <div>Upload your room avatar</div>
+                            <div class="imgBox">
+                                <img id="roomAvatar" src="" alt="" class="img-rounded">
+                                <span class="glyphicon glyphicon-picture"></span>
+                            </div>
+                        </label>
+                        <input type="file" id="avatarInput" style="display:none;" accept="image/*">
+                        <p class="help-block">Example block-level help text here.</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default closeRoomCreate" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="createRoomNow">Create Now!</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="loadingShadow" style="display:none;">
+        <div class="shadow"></div>
+        <div class="loadingBox">
+            <p class="glyphicon glyphicon-refresh"></p>
+            <p class="loadingText">Loading...</p>
+        </div>
+    </div>
+
+    <!-- template -->
+    <script type="text/html" id="roomList">
+        {{if data.length>0}}
+            {{each data}}
+            <div class="roomListItem">
+                <div class="media">
+                    <div class="media-left">
+                        <img class="media-object" src="{{$value.originAvatar}}" alt="...">
+                    </div>
+                    <div class="media-body">
+                        <a href="{{'/room/' + $value.roomId}}">
+                            <h4 class="media-heading">{{$value.roomName}}</h4>
+                            <p>{{$value.roomDesc}}</p>
+                        </a>
+                        <div class="joinPeopleBox clearfix">
+                            <span>{{ $value.timeText }}</span>
+                            {{if $value.userId == $value.curUI}}
+                            <span class="deleteItem" data-i="{{$value.roomId}}">Delete</span>  
+                            {{/if}}                          
+                            <span class="glyphicon glyphicon-user pull-right" aria-hidden="true"></span>
+                            {{if $value.join }}
+                            <span class="joinNum pull-right"> {{$value.join.length || ""}} </span>
+                            {{/if}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{/each}}
+        {{else if pageNum==1}}
+        <div class="roomListItem noRoomData">
+            <div class="media">
+                <div class="media-left">
+
+                </div>
+                <div class="media-body" style="text-align:center;">
+                    <h4>No chat room now , just create ! </h4>
+                </div>
+            </div>
+        </div>
+        {{else}}
+
+        {{/if}}
+    </script>
+    <script type="text/javascript" src="../js/assets/jquery/jquery-1.12.4.min.js"></script>
+    <script type="text/javascript" src="../js/assets/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../js/assets/art-template/art-template.min.js"></script>
+    <script type="text/javascript" src="../js/assets/js-url/url.min.js"></script>
+    <script type="text/javascript" src="../js/header.js"></script>
+    <script type="text/javascript" src="../js/utils.js"></script>
+    <script type="text/javascript" src="../js/list.js"></script>
+</body>
+
+</html>
