@@ -33,7 +33,7 @@ gulp.task('_clean',function(cb){
       .pipe(clean());
 });
 
-// 2、创建文件夹
+// 2、创建文件夹（gulp没有提供创建文件夹的方法，用fs解决）
 gulp.task('_init_dir',()=>{
     return new Promise(function(resolve,reject){
         fs.mkdir(FILE_DIR.output,function(err){
@@ -52,7 +52,7 @@ gulp.task('_init_dir',()=>{
     })
 })
 
-// 2、复制资源文件
+// 2、复制资源文件（gulp也没有提供复制整个文件夹的方法，同样用fs解决）
 gulp.task('_copy_assets',function(){
     return new Promise(function(resolve,reject){
       REMOVE.copyFolder(BASE_URL+FILE_DIR.assets, FILE_DIR.output+FILE_DIR.assets, function(err) {

@@ -18,6 +18,8 @@
         里面的目录结构与src一致，js、css、html文件夹里面的内容进行了压缩处理
 
 ##  运行
+
+    npm install --save-dev gulp-babel @babel/core @babel/preset-env
     
     全局安装gulp
         npm i gulp -g
