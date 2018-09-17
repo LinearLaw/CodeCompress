@@ -1,4 +1,5 @@
 // js file dir
+const BASE_URL = "";
 const JS_CONFIG = {
   JS_NAME:[
     "index_1",
@@ -11,3 +12,4 @@ const JS_CONFIG = {
 JS_CONFIG.JS_DIR = JS_CONFIG.JS_NAME.map((it,_in)=>{
     return `./${BASE_URL}/${JS_CONFIG.DIR_BASE}/${it}.js`
 })
+console.log("page index 3");

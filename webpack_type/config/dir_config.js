@@ -17,15 +17,21 @@ PAGE_CONFIG.PAGE_DIR = PAGE_CONFIG.PAGE_NAME.map((it,_in)=>{
 // js file dir
 const JS_CONFIG = {
   JS_NAME:[
-    "index_1",
+    ["index_1","utils"],
     "index_2",
     "index_3",
   ],
-  JS_DIR:[],
+  JS_DIR:{},
   DIR_BASE:"js"
 };
-JS_CONFIG.JS_DIR = JS_CONFIG.JS_NAME.map((it,_in)=>{
-    return `./${BASE_URL}/${JS_CONFIG.DIR_BASE}/${it}.js`
+JS_CONFIG.JS_NAME.map((it,_in)=>{
+    if(typeof it == "string"){
+      JS_CONFIG.JS_DIR[it] = `./${BASE_URL}/${JS_CONFIG.DIR_BASE}/${it}.js`;
+    }else{
+      JS_CONFIG.JS_DIR[it[0]] = it.map((_int,_inn)=>{
+        return `./${BASE_URL}/${JS_CONFIG.DIR_BASE}/${_int}.js`
+      });
+    }
 })
 
 // build dir
