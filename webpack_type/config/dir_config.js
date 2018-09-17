@@ -32,7 +32,7 @@ JS_CONFIG.JS_DIR = JS_CONFIG.JS_NAME.map((it,_in)=>{
 const BUILD_BASE = "dist"
 const BUILD_DIR = {
   base:BUILD_BASE,
-  js:`${BUILD_BASE}`,
+  js:`${BUILD_BASE}/js`,
   html:`${BUILD_BASE}/html`
 }
 
