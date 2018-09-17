@@ -1,4 +1,6 @@
 
+
+import "../less/index_2.less"
 import "./utils.js"
 
 

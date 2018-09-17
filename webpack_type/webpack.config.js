@@ -3,9 +3,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 //for make css style output a single file but not a style tag, use extract text webpack plugin
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-// Create multiple instances
-const extractCSS = new ExtractTextPlugin('stylesheets/[name].css');
-const extractLESS = new ExtractTextPlugin('stylesheets/[name].css');
 
 const CleanWebpackPlugin = require('clean-webpack-plugin' );
 
@@ -18,29 +15,38 @@ module.exports = {
     entry:entryArr, 
     output:{
         path:path.resolve(__dirname, CFG.BUILD_DIR.base),
-        filename:'pages/[name]/[name]-bundle.js' 
+        filename:'pages/[name]/[name]-bundle.js',
+        //publicPath 表示资源的发布地址，当配置过该属性后，打包文件中所有通过相对路径引用的资源都会被配置的路径所替换。
+        // publicPath: '/assets/',
     },
     module:{ 
         rules:[
+            // 不使用extract-text-webpack-plugin时，import的css将会加入到html的style标签里
             // {
             //     test:/\.css$/,
             //     use:['style-loader','css-loader']
             // },
+            /* css和less的打包规则，使用style-loader、css-loader、less-loader */
             {
                 test: /\.css$/,
-                use: extractCSS.extract([ 'css-loader', 'postcss-loader' ])
+                use: ExtractTextPlugin.extract({
+                    fallback: "style-loader",
+                    use: "css-loader"
+                })
             },
             {
                 test: /\.less$/i,
-                use: extractLESS.extract([ 'css-loader', 'less-loader' ])
+                use: ExtractTextPlugin.extract({
+                    fallback: 'style-loader',
+                    use: ['css-loader', 'less-loader']
+                })
             },
         ]
     },
 
     plugins:[
         new CleanWebpackPlugin( CFG.BUILD_BASE ),
-        extractCSS,
-        extractLESS,
+        new ExtractTextPlugin('css/[name].css'),
         ...CFG.PAGE_CONFIG.PAGE_NAME.map((_it,_in)=>{
             var _chunks = typeof CFG.JS_CONFIG.JS_NAME[_in]=="string"?[ CFG.JS_CONFIG.JS_NAME[_in] ]:[...CFG.JS_CONFIG.JS_NAME[_in]];
             return new HtmlWebpackPlugin({
