@@ -1,6 +1,12 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
+//for make css style output a single file but not a style tag, use extract text webpack plugin
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+// Create multiple instances
+const extractCSS = new ExtractTextPlugin('stylesheets/[name].css');
+const extractLESS = new ExtractTextPlugin('stylesheets/[name].css');
+
 const CleanWebpackPlugin = require('clean-webpack-plugin' );
 
 const CFG = require("./config/dir_config.js");
@@ -16,15 +22,25 @@ module.exports = {
     },
     module:{ 
         rules:[
+            // {
+            //     test:/\.css$/,
+            //     use:['style-loader','css-loader']
+            // },
             {
-                test:/\.css$/,
-                use:['style-loader','css-loader']
-            }
+                test: /\.css$/,
+                use: extractCSS.extract([ 'css-loader', 'postcss-loader' ])
+            },
+            {
+                test: /\.less$/i,
+                use: extractLESS.extract([ 'css-loader', 'less-loader' ])
+            },
         ]
     },
 
     plugins:[
         new CleanWebpackPlugin( CFG.BUILD_BASE ),
+        extractCSS,
+        extractLESS,
         ...CFG.PAGE_CONFIG.PAGE_NAME.map((_it,_in)=>{
             var _chunks = typeof CFG.JS_CONFIG.JS_NAME[_in]=="string"?[ CFG.JS_CONFIG.JS_NAME[_in] ]:[...CFG.JS_CONFIG.JS_NAME[_in]];
             return new HtmlWebpackPlugin({
