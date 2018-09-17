@@ -14,6 +14,15 @@ module.exports = {
         path:path.resolve(__dirname, CFG.BUILD_DIR.base),
         filename:'pages/[name]/[name]-bundle.js' 
     },
+    module:{ 
+        rules:[
+            {
+                test:/\.css$/,
+                use:['style-loader','css-loader']
+            }
+        ]
+    },
+
     plugins:[
         new CleanWebpackPlugin( CFG.BUILD_BASE ),
         ...CFG.PAGE_CONFIG.PAGE_NAME.map((_it,_in)=>{

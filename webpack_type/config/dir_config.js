@@ -15,6 +15,9 @@ PAGE_CONFIG.PAGE_DIR = PAGE_CONFIG.PAGE_NAME.map((it,_in)=>{
 })
 
 // js file dir
+//js file name can input a string , signed file name, this file is the entry file of current html 
+//if need import multiple entry , input a array and its elements is entry file's name 
+//default js file direction is src/js/
 const JS_CONFIG = {
   JS_NAME:[
     ["index_1","utils"],

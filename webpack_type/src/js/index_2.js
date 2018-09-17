@@ -1,3 +1,7 @@
+
+import "./utils.js"
+
+
 // page dir
 const BASE_URL = "";
 const PAGE_CONFIG = {
