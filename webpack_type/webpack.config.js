@@ -1,5 +1,8 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+const CleanWebpackPlugin = require('clean-webpack-plugin' );
+
 const CFG = require("./config/dir_config.js");
 
  
@@ -24,6 +27,7 @@ module.exports = {
         filename:'pages/[name]/[name]-bundle.js' 
     },
     plugins:[
+        new CleanWebpackPlugin([ CFG.BUILD_BASE ]),
         ...CFG.PAGE_CONFIG.PAGE_NAME.map((_it,_in)=>{
             return new HtmlWebpackPlugin({
                 chunks:[ CFG.JS_CONFIG.JS_NAME[_in] ], //添加引入的js,也就是entry中的key
