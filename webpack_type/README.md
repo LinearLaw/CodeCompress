@@ -200,8 +200,9 @@
     es6是要单独处理的，需要使用babel。
     安装依赖
         npm i babel-loader @babel/core -D
-        npm install babel-preset-env --save-dev
-    
+        npm i @babel/preset-env -D
+        
+    .webpack.config.js
         module:{ 
             rules:[
                 ...
@@ -216,12 +217,13 @@
             ]
         },
 
-    polyfill需要成为一个应用的依赖来执行，
-    因此需要令其成为dependency而非devDependency
-        npm install --save babel-polyfill
+    .babelrc
+        { 
+            "presets": ["@babel/preset-env"]
+        }
 
-        entry: ["babel-polyfill", "./app/js"]
-
+    Tips：babel在7.0版本开始，名字为@babel，7.0版本之前叫做babel
+        例如7.0以前的babel-preset-env，7.0后叫做@babel/preset-env
 
 
 
