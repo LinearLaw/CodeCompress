@@ -15,17 +15,12 @@ module.exports = {
     entry:entryArr, 
     output:{
         path:path.resolve(__dirname, CFG.BUILD_DIR.base),
-        filename:'pages/[name]/[name]-bundle.js',
+        filename:'js/[name]-bundle.js',
         //publicPath 表示资源的发布地址，当配置过该属性后，打包文件中所有通过相对路径引用的资源都会被配置的路径所替换。
-        // publicPath: '/assets/',
+        // publicPath: 'assets/',
     },
     module:{ 
         rules:[
-            // 不使用extract-text-webpack-plugin时，import的css将会加入到html的style标签里
-            // {
-            //     test:/\.css$/,
-            //     use:['style-loader','css-loader']
-            // },
             /* css和less的打包规则，使用style-loader、css-loader、less-loader */
             {
                 test: /\.css$/,
@@ -41,6 +36,19 @@ module.exports = {
                     use: ['css-loader', 'less-loader']
                 })
             },
+            {
+        　　　　　　 test: /\.(png|svg|jpg|gif)$/,
+                loader: 'url-loader',
+                options: {
+                    limit: 10000,
+                    name: 'img/[name].[hash:8].[ext]',
+                    publicPath:path.resolve(__dirname,"dist/")
+                }
+        　　　},
+            {
+                test: /\.(htm|html)$/i,
+                use:"html-url-loader" 
+            }
         ]
     },
 
@@ -51,7 +59,7 @@ module.exports = {
             var _chunks = typeof CFG.JS_CONFIG.JS_NAME[_in]=="string"?[ CFG.JS_CONFIG.JS_NAME[_in] ]:[...CFG.JS_CONFIG.JS_NAME[_in]];
             return new HtmlWebpackPlugin({
                 chunks:_chunks, //添加引入的js,也就是entry中的key
-                filename:`pages/${_chunks[0]}/${_it}.html`,//打包后的html名称
+                filename:`html/${_it}.html`,//打包后的html名称
                 minify:{
                     collapseWhitespace:true //折叠空白区域 也就是压缩代码
                 },

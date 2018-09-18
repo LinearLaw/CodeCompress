@@ -15,6 +15,15 @@ module.exports = {
         // filename:'[name]-bundle.js' 
         filename:'pages/[name]/[name]-bundle.js' 
     },
+    module:{ 
+        rules:[
+            // 不使用extract-text-webpack-plugin时，import的css将会加入到html的style标签里
+            {
+                test:/\.css$/,
+                use:['style-loader','css-loader']
+            },
+        ]
+    },
     plugins:[
         new CleanWebpackPlugin( CFG.BUILD_BASE ),
         new HtmlWebpackPlugin({
