@@ -50,13 +50,13 @@ module.exports = {
                 test: /\.(htm|html)$/i,
                 use:"html-url-loader" 
             },
-            // {
-            //     test: /\.js$/,
-            //     exclude: /(node_modules|bower_components)/,
-            //     use: {
-            //         loader: 'babel-loader',
-            //     }
-            // },
+            {
+                test: /\.js$/,
+                exclude: /(node_modules)/,
+                use: {
+                    loader: 'babel-loader',
+                }
+            },
         ]
     },
 
