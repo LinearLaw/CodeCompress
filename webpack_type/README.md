@@ -29,20 +29,176 @@
     │      dir_config.js //引用路径的配置文件
     │      
     ├─dist       //打包后生成的目录
-    │  └─pages
-    │      ├─index_1
-    │      │      index_1-bundle.js
-    │      │      index_1.html
-    │      │      
-    │      ├─index_2
-    │      │      index_2-bundle.js
-    │      │      index_2.html
-    │      │      
-    │      └─index_3
-    │              index_3-bundle.js
-    │              index_3.html
     │              
     └─src       //开发用的源代码
         ├─html  //放html文件
         │      
         └─js    //放js文件
+
+
+##  webpack填坑
+
+1、多页面多入口
+
+    like this:
+
+        const path = require('path');
+
+        //html-webpack-plugin用于给html插入js文件
+        const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+        //clean-webpack-plugin用户删除原有的打包文件
+        const CleanWebpackPlugin = require('clean-webpack-plugin' );
+
+        module.exports = {
+            mode:"production",
+
+            //多入口，配置多个key和value
+            entry:{
+                index: './src/index.js',
+                index2: ['./src/index2.js'],
+            }, 
+            output:{
+                path:path.resolve(__dirname, "dist"),
+                //filename前面使用一个变量[name]
+                //这个就表示获取entry里面的key作为文件名加在前面
+                filename:'js/[name]-bundle.js' 
+            },
+            module:{ 
+                rules:[
+                    // 不使用extract-text-webpack-plugin时，
+                    // import的css将会加入到html的style标签里
+                    {
+                        test:/\.css$/,
+                        use:['style-loader','css-loader']
+                    },
+                ]
+            },
+            plugins:[
+                new CleanWebpackPlugin( CFG.BUILD_BASE ),
+
+                // 每一个js的入口都会对应一个html文件，
+                // 因此需要写多个new HtmlWebpackPlugin
+                new HtmlWebpackPlugin({
+                    chunks:['index'],   //添加引入的js,也就是entry中的key
+                    filename:'page/index.html',
+                    minify:{
+                        collapseWhitespace:true //折叠空白区域 也就是压缩代码
+                    },
+                    hash:true,
+
+                    //可以给页面加参数，比如title
+                    // 在html中引用： <%= htmlWebpackPlugin.options.title %>
+                    title:'第一个页面', 
+
+                    template: './src/index.html' //模板地址
+                }),
+                new HtmlWebpackPlugin({
+                    chunks:['index2'], 
+                    filename:'page/index2.html',
+                    minify:{
+                        collapseWhitespace:true 
+                    },
+                    hash:true,
+                    title:'第二个页面',//模板地址
+                })
+            ]
+        }
+
+2、处理css、less
+
+    处理css有两种方式，
+        第一种方式是以js文件的import来存在的css方式，
+            这种方式打包后，import进来的css会变成一个style标签插入到html中
+        第二种方式是将css打包成单独文件的方式，
+            这种方式打包后，css文件将使用link标签引入到html中
+
+    第一种：
+        module:{ 
+            rules:[
+                // 不使用extract-text-webpack-plugin时，
+                // import的css将会加入到html的style标签里
+                {
+                    test:/\.css$/,
+                    use:['style-loader','css-loader']
+                },
+            ]
+        },
+
+        Tips：使用webpack时，需要加载style-loader和css-loader这两个包
+            npm i style-loader -D
+            npm i css-loader -D
+
+    第二种，首先引入一个extract-text-webpack-plugin的插件
+
+        const ExtractTextPlugin = require('extract-text-webpack-plugin');
+        ...
+        module.exports = {
+            ...
+            module:{
+                rules:[
+                    {
+                        test: /\.css$/,
+                        use: ExtractTextPlugin.extract({
+                            fallback: "style-loader",
+                            use: "css-loader"
+                        })
+                    },
+                    //处理less文件
+                    {
+                        test: /\.less$/i,
+                        use: ExtractTextPlugin.extract({
+                            fallback: 'style-loader',
+                            use: ['css-loader', 'less-loader']
+                        })
+                    },
+                ]
+            }
+            ...
+
+            plugins:[
+                ...
+                new ExtractTextPlugin('css/[name].css'),
+                ...
+            ]
+        }
+
+        Tips：如果需要处理less文件，除了css-loader和style-loader外，
+            还需要less-loader和less两个包
+            npm i less-loader -D
+            npm i less -D
+
+3、处理图片文件
+
+    处理图片需要url-loader、html-url-loader两个包
+        url-loader用来解析图片url，
+        html-url-loader用来专门打包img标签中的src引入的图片
+
+        module:{ 
+            rules:[
+                ...
+                {
+            　　　　　　 test: /\.(png|svg|jpg|gif)$/,
+                    loader: 'url-loader',
+                    options: {
+                        limit: 10000,
+                        name: 'img/[name].[hash:8].[ext]',
+                        //这里的publicPath用来给图片指定根目录路径
+                        publicPath:path.resolve(__dirname,"dist/")
+                    }
+            　　　},
+                {
+                    test: /\.(htm|html)$/i,
+                    use:"html-url-loader" 
+                },
+                ...
+            ]
+        },
+
+4、处理es6
+    
+    es6是要单独处理的。
+
+
+
+    
