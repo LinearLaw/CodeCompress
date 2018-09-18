@@ -13,3 +13,4 @@ JS_CONFIG.JS_DIR = JS_CONFIG.JS_NAME.map((it,_in)=>{
     return `./${BASE_URL}/${JS_CONFIG.DIR_BASE}/${it}.js`
 })
 console.log("page index 3");
+

@@ -1,8 +1,8 @@
 
 
 import "../less/index_2.less"
-import "./utils.js"
-import $ from "../assets/jquery/jquery-1.12.4.min.js"
+// import "./utils.js"
+// import $ from "../assets/jquery/jquery-1.12.4.min.js"
 
 // page dir
 const BASE_URL = "";

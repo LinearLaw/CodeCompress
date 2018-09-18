@@ -184,7 +184,7 @@
                         limit: 10000,
                         name: 'img/[name].[hash:8].[ext]',
                         //这里的publicPath用来给图片指定根目录路径
-                        publicPath:path.resolve(__dirname,"dist/")
+                        publicPath:"../"
                     }
             　　　},
                 {
@@ -197,7 +197,31 @@
 
 4、处理es6
     
-    es6是要单独处理的。
+    es6是要单独处理的，需要使用babel。
+    安装依赖
+        npm i babel-loader @babel/core -D
+        npm install babel-preset-env --save-dev
+    
+        module:{ 
+            rules:[
+                ...
+                {
+                    test: /\.js$/,
+                    exclude: /(node_modules)/,
+                    use: {
+                        loader: "babel-loader"
+                    }
+                }
+                ...
+            ]
+        },
+
+    polyfill需要成为一个应用的依赖来执行，
+    因此需要令其成为dependency而非devDependency
+        npm install --save babel-polyfill
+
+        entry: ["babel-polyfill", "./app/js"]
+
 
 
 

@@ -20,7 +20,8 @@ PAGE_CONFIG.PAGE_DIR = PAGE_CONFIG.PAGE_NAME.map((it,_in)=>{
 //default js file direction is src/js/
 const JS_CONFIG = {
   JS_NAME:[
-    ["index_1","utils"],
+    // ["index_1","utils"],
+    "index_1",
     "index_2",
     "index_3",
   ],
@@ -34,8 +35,10 @@ JS_CONFIG.JS_NAME.map((it,_in)=>{
       JS_CONFIG.JS_DIR[it[0]] = it.map((_int,_inn)=>{
         return `./${BASE_URL}/${JS_CONFIG.DIR_BASE}/${_int}.js`
       });
+      // JS_CONFIG.JS_DIR[it[0]].unshift("babel-polyfill");
     }
-})
+});
+
 
 // build dir
 const BUILD_BASE = "dist"

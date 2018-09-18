@@ -42,13 +42,21 @@ module.exports = {
                 options: {
                     limit: 10000,
                     name: 'img/[name].[hash:8].[ext]',
-                    publicPath:path.resolve(__dirname,"dist/")
+                    publicPath:"../"
+                    // publicPath:path.resolve(__dirname,"dist/")
                 }
         　　　},
             {
                 test: /\.(htm|html)$/i,
                 use:"html-url-loader" 
-            }
+            },
+            // {
+            //     test: /\.js$/,
+            //     exclude: /(node_modules|bower_components)/,
+            //     use: {
+            //         loader: 'babel-loader',
+            //     }
+            // },
         ]
     },
 
