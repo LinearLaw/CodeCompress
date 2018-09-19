@@ -4,6 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 //for make css style output a single file but not a style tag, use extract text webpack plugin
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin' );
 
 const CFG = require("./config/dir_config.js");
@@ -62,6 +63,10 @@ module.exports = {
 
     plugins:[
         new CleanWebpackPlugin( CFG.BUILD_BASE ),
+        new CopyWebpackPlugin([{
+            from: __dirname + '/src/assets',
+            to:__dirname + '/dist/assets'
+        }]),
         new ExtractTextPlugin('css/[name].css'),
         ...CFG.PAGE_CONFIG.PAGE_NAME.map((_it,_in)=>{
             var _chunks = typeof CFG.JS_CONFIG.JS_NAME[_in]=="string"?[ CFG.JS_CONFIG.JS_NAME[_in] ]:[...CFG.JS_CONFIG.JS_NAME[_in]];
