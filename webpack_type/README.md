@@ -237,6 +237,44 @@
     Tips：babel在7.0版本开始，名字为@babel，7.0版本之前叫做babel
         例如7.0以前的babel-preset-env，7.0后叫做@babel/preset-env
 
+5、html公共模板引入
+
+    这里需要先将html-loader从webpack.config.js的module.rules中剥离
+    html-loader和webpack自带的ejs语法有冲突。
+    因此，第3点，处理图片中的rule应当这样写
+        module:{ 
+            rules:[
+                ...
+                {
+            　　　　　　 test: /\.(png|svg|jpg|gif)$/,
+                    loader: 'url-loader',
+                    options: {
+                        limit: 10000,
+                        name: 'img/[name].[hash:8].[ext]',
+                        //这里的publicPath用来给图片指定根目录路径
+                        publicPath:"../"
+                    }
+            　　　},
+                //{
+                //    test: /\.(htm|html)$/i,
+                //    use:"html-url-loader" 
+                //},
+                ...
+            ]
+        },
+
+
+        在模板中引入html：
+        index_1.html
+            <div>
+                <%= require('html-loader!./header.html') %>
+            </div>
+
+        在模板img标签中引入图片
+            <div>
+                <img src="<%= require('../img/card_1-line3.gif') %>" alt="">
+            </div>
+
 
 
     

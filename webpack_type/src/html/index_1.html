@@ -12,9 +12,11 @@
 </style>
 </head>
 <body>
-  11111
-  <img src="../img/card_1-line3.gif" alt="">
-  <img src="../img/refresh.png" alt="">
-  <img src="../img/579eb391a7da9.jpg" alt="">
+  <div>
+    <%= require('html-loader!./header.html') %>
+  </div>
+  <img src="<%= require('../img/card_1-line3.gif') %>" alt="">
+  <img src="<%= require('../img/refresh.png') %>" alt="">
+  <img src="<%= require('../img/579eb391a7da9.jpg') %>" alt="">
 </body>
 </html>

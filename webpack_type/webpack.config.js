@@ -47,10 +47,10 @@ module.exports = {
                     // publicPath:path.resolve(__dirname,"dist/")
                 }
         　　　},
-            {
-                test: /\.(htm|html)$/i,
-                use:"html-url-loader" 
-            },
+            // {
+            //     test: /\.(htm|html)$/i,
+            //     use:["html-loader"]
+            // },
             {
                 test: /\.js$/,
                 exclude: /(node_modules|bower_components)/,
