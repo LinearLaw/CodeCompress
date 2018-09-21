@@ -1,57 +1,42 @@
-const BASE_URL = "src"
+
+const fileMap = require( "./name_config.js");
 
 // page dir
 const PAGE_CONFIG = {
-  PAGE_NAME:[
-    "index_1",
-    "index_2",
-    "index_3",
-  ],
-  PAGE_DIR:[],
-  DIR_BASE:"html"
+  PAGE_NAME:fileMap.PAGE_NAME,
+  PAGE_DIR:fileMap.PAGE_NAME.map((it,_in)=>{
+      return `${fileMap.dev.BASE}/${fileMap.dev.PAGE_FOLDER}/${it}.html`
+  }),
 };
-PAGE_CONFIG.PAGE_DIR = PAGE_CONFIG.PAGE_NAME.map((it,_in)=>{
-    return `${BASE_URL}/${PAGE_CONFIG.DIR_BASE}/${it}.html`
-})
 
 // js file dir
 //js file name can input a string , signed file name, this file is the entry file of current html 
 //if need import multiple entry , input a array and its elements is entry file's name 
 //default js file direction is src/js/
 const JS_CONFIG = {
-  JS_NAME:[
-    // ["index_1","utils"],
-    "index_1",
-    "index_2",
-    "index_3",
-  ],
+  JS_NAME:fileMap.JS_NAME,
   JS_DIR:{},
-  DIR_BASE:"js"
 };
-JS_CONFIG.JS_NAME.map((it,_in)=>{
+fileMap.JS_NAME.map((it,_in)=>{
     if(typeof it == "string"){
-      JS_CONFIG.JS_DIR[it] = `./${BASE_URL}/${JS_CONFIG.DIR_BASE}/${it}.js`;
+      JS_CONFIG.JS_DIR[it] = `./${fileMap.dev.BASE}/${fileMap.dev.JS_FOLDER}/${it}.js`;
     }else{
       JS_CONFIG.JS_DIR[it[0]] = it.map((_int,_inn)=>{
-        return `./${BASE_URL}/${JS_CONFIG.DIR_BASE}/${_int}.js`
+        return `./${fileMap.dev.BASE}/${fileMap.dev.JS_FOLDER}/${_int}.js`
       });
-      // JS_CONFIG.JS_DIR[it[0]].unshift("babel-polyfill");
     }
 });
 
 
 // build dir
-const BUILD_BASE = "dist"
-const BUILD_DIR = {
-  base:BUILD_BASE,
-  js:`${BUILD_BASE}/js`,
-  html:`${BUILD_BASE}/html`
-}
+const BUILD_DIR = fileMap.build;
+const DEV_DIR = fileMap.dev;
 
 module.exports = {
   PAGE_CONFIG,
   JS_CONFIG,
-  BUILD_DIR
+  BUILD_DIR,
+  DEV_DIR
 }
 
 

@@ -275,6 +275,55 @@
                 <img src="<%= require('../img/card_1-line3.gif') %>" alt="">
             </div>
 
+##  用法
+    
+    2018-9-21 11:32:29 
+        创建了html文件之后，放到src文件夹
+
+            默认的src结构是这样的
+                assets  assets用来放插件，在打包时，
+                            assets里面的东西会全部复制到打包文件夹
+                img     图片文件放在这里
+                html    html文件放在这里
+                css     css文件放在这里
+                less    less文件放在这里
+                js      js文件放这里
+
+            随着开发创建的文件增多，需要加入一些配置
+                /config/name_config.js
+
+                const fileMap = {
+                    PAGE_NAME:[
+                        //写入html文件夹里面的所有html文件名称
+                    ],
+                    JS_NAME:[
+                        //写入js文件夹里面所有的js文件的名称
+                    ],
+                    ...
+                }
+            
+                Tips：注意，PAGE_NAME和JS_NAME的元素应该是一一对应的。
+                    也就是说，PAGE_NAME第n个元素，会对应到JS_NAME的第n个元素
+                    JS_NAME的元素是PAGE_NAME的入口文件。
+                    所以，每一个html文件都必定需要一个js入口文件。
+
+                其他的设置，可改可不改。
+                每次新创建了一个html文件和其对应js入口，都应当在name_config.js中注册
+                js入口可多个，写名字的时候写数组。
+
+                eg:
+                    PAGE_NAME:[
+                        "index_1",
+                        "index_2"
+                    ],
+                    其中，如果index_1.html的入口文件叫做index_1.js
+                    而index_2的入口文件有两个，一个叫utils.js，一个叫index_2.js
+                    于是JS_NAME就这样写：
+
+                    JS_NAME:[
+                        "index_1",
+                        ["index_2","utils"],
+                    ],
 
 
     
