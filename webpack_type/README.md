@@ -277,19 +277,49 @@
 
 ##  用法
     
+    2019-3-4 15:58:27
+    大幅度修改了文件路径配置的数据结构，PAGE_NAME、JS_NAME进行了合并，
+        const fileMap = {
+            ROUTER:[
+                { 
+                    name:'index_1',
+                    js:['index_1','utils'],
+                },
+                {
+                    name:'index_2',
+                    js:'index_2'
+                },
+            ],
+            // dev目录配置项
+            DEV:{
+                base:'src',     //开发环境根目录
+                folder:'html',  //存放html文件的文件夹名
+                js_folder:'js'  //存放js文件的文件夹名
+            },
+            // prod目录配置项
+            BUILD:{
+                base:'dist',
+                folder:'html',
+                js_folder:'js',
+                css_folder:'css'  //存放css文件的文件夹名
+            },
+        }
+
+
+
     2018-9-21 11:32:29 
         创建了html文件之后，放到src文件夹
 
             默认的src结构是这样的
-                assets  assets用来放插件，在打包时，
-                            assets里面的东西会全部复制到打包文件夹
+                assets  assets用来放插件，
+                    在打包时，assets里面的东西会全部原样复制到打包文件夹
                 img     图片文件放在这里
                 html    html文件放在这里
                 css     css文件放在这里
                 less    less文件放在这里
                 js      js文件放这里
 
-            随着开发创建的文件增多，需要加入一些配置
+            （用法参见最新版）随着开发创建的文件增多，需要加入一些配置
                 /config/name_config.js
 
                 const fileMap = {
