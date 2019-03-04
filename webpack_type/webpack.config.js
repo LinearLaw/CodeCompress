@@ -11,10 +11,10 @@ const config = require("./config/dir_config.js");
 
 module.exports = {
     mode:"production",
-    entry:config.JS_CONFIG.JS_DIR, 
+    entry:config.PAGE_CONFIG.JS_DIR, 
     output:{
-        path:path.resolve(__dirname, config.BUILD_DIR.BASE),
-        filename:`${config.BUILD_DIR.JS_FOLDER}/[name]-bundle.js`,
+        path:path.resolve(__dirname, config.BUILD_DIR.base),
+        filename:`${config.BUILD_DIR.js_folder}/[name]-bundle.js`,
         //publicPath 表示资源的发布地址，当配置过该属性后，打包文件中所有通过相对路径引用的资源都会被配置的路径所替换。
         // publicPath: 'assets/',
     },
@@ -60,18 +60,18 @@ module.exports = {
     },
 
     plugins:[
-        new CleanWebpackPlugin( config.BUILD_DIR.BASE ),
+        new CleanWebpackPlugin( config.BUILD_DIR.base ),
         new CopyWebpackPlugin([{
-            from: __dirname + `/${config.DEV_DIR.BASE}/assets`,
-            to:__dirname + `/${config.BUILD_DIR.BASE}/assets`
+            from: __dirname + `/${config.DEV_DIR.base}/assets`,
+            to:__dirname + `/${config.BUILD_DIR.base}/assets`
         }]),
-        new ExtractTextPlugin(`${config.BUILD_DIR.CSS_FOLDER}/[name].css`),
+        new ExtractTextPlugin(`${config.BUILD_DIR.css_folder}/[name].css`),
 
         ...config.PAGE_CONFIG.PAGE_NAME.map((_it,_in)=>{
-            var _chunks = typeof config.JS_CONFIG.JS_NAME[_in]=="string"?[ config.JS_CONFIG.JS_NAME[_in] ]:[...config.JS_CONFIG.JS_NAME[_in]];
+            var _chunks = typeof config.PAGE_CONFIG.JS_NAME[_in]=="string"?[ config.PAGE_CONFIG.JS_NAME[_in] ]:[...config.PAGE_CONFIG.JS_NAME[_in]];
             return new HtmlWebpackPlugin({
                 chunks:_chunks, //添加引入的js,也就是entry中的key
-                filename:`${config.BUILD_DIR.PAGE_FOLDER}/${_it}.html`,//打包后的html名称
+                filename:`${config.BUILD_DIR.folder}/${_it}.html`,//打包后的html名称
                 minify:{
                     collapseWhitespace:true //折叠空白区域 也就是压缩代码
                 },
