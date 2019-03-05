@@ -1,5 +1,6 @@
 
-import "../css/index_1.css";
+// import "../css/index_1.css";
+
 
 let fibonacci = {
   [Symbol.iterator]() {
@@ -13,4 +14,3 @@ let fibonacci = {
   }
 }
 var a = 1;
-console.log("page index 1");

@@ -7,6 +7,10 @@
 
 const fileMap = {
   ROUTER:[
+    {
+      name:'../index',
+      js:'index_1'
+    },
     { 
       name:'index_1',
       js:['index_1','utils'],
