@@ -7,6 +7,9 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin' );
 
+// 用于压缩css文件，webpack 4.x新增的东西
+const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
+
 const config = require("./config/dir_config.js");
 
 module.exports = {
@@ -31,14 +34,6 @@ module.exports = {
                             minimize: true //css压缩
                         }
                     },
-                    // {
-                    //     loader: 'postcss-loader',
-                    //     options: {
-                    //         config: {
-                    //             path: path.resolve(__dirname, './postcss.config.js')
-                    //         }
-                    //     },
-                    // },
                     'less-loader']
                 })
             },
@@ -73,7 +68,7 @@ module.exports = {
             to:path.resolve(__dirname , `${config.BUILD_DIR.base}/assets`)
         }]),
         new ExtractTextPlugin({
-            filename:`${config.BUILD_DIR.css_folder}/[name]-[id].css`,
+            filename:`${config.BUILD_DIR.css_folder}/[name]-[hash].css`,
             allChunks: true,
         }),
 
@@ -92,7 +87,7 @@ module.exports = {
         }),
     ],
     optimization: {
-        minimize: true,
-        moduleIds: 'hashed'
+        // 压缩 css文件
+        minimizer: [new OptimizeCSSPlugin({})]
     }
 }
