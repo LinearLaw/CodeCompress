@@ -7,13 +7,13 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin' );
 
-const config = require("../config/dir_config.js");
+const config = require("./config/dir_config.js");
 
 module.exports = {
     mode:"production",
     entry:config.PAGE_CONFIG.JS_DIR, 
     output:{
-        path:path.resolve(__dirname,"../", config.BUILD_DIR.base),
+        path:path.resolve(__dirname, config.BUILD_DIR.base),
         filename:`${config.BUILD_DIR.js_folder}/[name]-bundle.js`,
         //publicPath 表示资源的发布地址，当配置过该属性后，打包文件中所有通过相对路径引用的资源都会被配置的路径所替换。
         // publicPath: 'assets/',
@@ -22,17 +22,24 @@ module.exports = {
         rules:[
             /* css和less的打包规则，使用style-loader、css-loader、less-loader */
             {
-                test: /\.css$/,
-                use: ExtractTextPlugin.extract({
-                    fallback: "style-loader",
-                    use: "css-loader"
-                })
-            },
-            {
-                test: /\.less$/i,
+                test:  /\.(less|css)$/,
                 use: ExtractTextPlugin.extract({
                     fallback: 'style-loader',
-                    use: ['css-loader', 'less-loader']
+                    use: [{
+                        loader: 'css-loader',
+                        options:{
+                            minimize: true //css压缩
+                        }
+                    },
+                    // {
+                    //     loader: 'postcss-loader',
+                    //     options: {
+                    //         config: {
+                    //             path: path.resolve(__dirname, './postcss.config.js')
+                    //         }
+                    //     },
+                    // },
+                    'less-loader']
                 })
             },
             {
@@ -60,12 +67,15 @@ module.exports = {
     },
 
     plugins:[
-        new CleanWebpackPlugin( config.BUILD_DIR.base ),
+        new CleanWebpackPlugin( path.resolve(__dirname ,config.BUILD_DIR.base) ),
         new CopyWebpackPlugin([{
-            from: path.resolve(__dirname ,'..', `${config.DEV_DIR.base}/assets`),
-            to:path.resolve(__dirname ,'..', `${config.BUILD_DIR.base}/assets`)
+            from: path.resolve(__dirname , `${config.DEV_DIR.base}/assets`),
+            to:path.resolve(__dirname , `${config.BUILD_DIR.base}/assets`)
         }]),
-        new ExtractTextPlugin(`${config.BUILD_DIR.css_folder}/[name].css`),
+        new ExtractTextPlugin({
+            filename:`${config.BUILD_DIR.css_folder}/[name]-[id].css`,
+            allChunks: true,
+        }),
 
         ...config.PAGE_CONFIG.PAGE_NAME.map((_it,_in)=>{
             var _chunks = typeof config.PAGE_CONFIG.JS_NAME[_in]=="string"?[ config.PAGE_CONFIG.JS_NAME[_in] ]:[...config.PAGE_CONFIG.JS_NAME[_in]];
@@ -80,5 +90,9 @@ module.exports = {
                 template: config.PAGE_CONFIG.PAGE_DIR[_in] //模板地址
             })
         }),
-    ]
+    ],
+    optimization: {
+        minimize: true,
+        moduleIds: 'hashed'
+    }
 }
