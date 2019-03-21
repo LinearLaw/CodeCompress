@@ -9,6 +9,8 @@ const CleanWebpackPlugin = require('clean-webpack-plugin' );
 
 // 用于压缩css文件，webpack 4.x新增的东西
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
+// 用于压缩js文件
+const UglifyJsPlugin = require("uglifyjs-webpack-plugin")
 
 const config = require("./config/dir_config.js");
 
@@ -33,8 +35,7 @@ module.exports = {
                         options:{
                             minimize: true //css压缩
                         }
-                    },
-                    'less-loader']
+                    },'less-loader']
                 })
             },
             {
@@ -87,7 +88,16 @@ module.exports = {
         }),
     ],
     optimization: {
-        // 压缩 css文件
-        minimizer: [new OptimizeCSSPlugin({})]
+        
+        minimizer: [
+            // 压缩js文件
+            new UglifyJsPlugin({
+                cache: true,
+                parallel: true,
+                sourceMap: false // set to true if you want JS source maps
+            }),
+            // 压缩 css文件
+            new OptimizeCSSPlugin({})
+        ]
     }
 }
