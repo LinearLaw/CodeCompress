@@ -19,9 +19,9 @@
 
     - 支持多个html页面，支持多个js文件，批量打包；
     - 打包html，去除空格、注释，插入相应的js文件，打包其中的img标签；
-    - 打包css，以link的形式单文件插入到html中；
-    - 打包less，编译成css；
-    - 打包js，去除空格、注释，es6语法转换成es5；
+    - 打包css，以link的形式单文件插入到html中，并启用压缩；
+    - 打包less，编译成css，并启用压缩；
+    - 打包js，去除空格、注释，es6语法转换成es5，并进行混淆压缩；
     - 打包图片文件，小于某个大小值的图片将会解析为base64格式文件，
         大于这个值将以单文件形式发布；
     - 引用的资源将会被完整复制到生产环境的代码中；
@@ -37,15 +37,15 @@
     │  README.md
     │  webpack.config.js
     │  
-    ├─config
+    ├─ config
     │      dir_config.js //引用路径的配置文件
     │      
-    ├─dist       //打包后生成的目录
+    ├─ dist       //打包后生成的目录
     │              
-    └─src       //开发用的源代码
-        ├─html  //放html文件
+    └─ src       //开发用的源代码
+        ├─html   //放html文件
         │      
-        └─js    //放js文件
+        └─js     //放js文件
 
 
 ##  webpack填坑
@@ -180,6 +180,13 @@
             npm i less-loader -D
             npm i less -D
 
+        Tips：css文件重命名可以带上hash后缀，即
+                原：new ExtractTextPlugin('css/[name].css')
+                新：new ExtractTextPlugin('css/[name]-[hash].css')
+
+            这里有个坑，ExtractTextPlugin文档里写的是[name]-[contenthash].css，
+            而写contenthash打包的时候会报错，写hash就正常了。
+
 3、处理图片文件
 
     处理图片需要url-loader、html-url-loader两个包
@@ -274,6 +281,29 @@
             <div>
                 <img src="<%= require('../img/card_1-line3.gif') %>" alt="">
             </div>
+
+    6、webpack 4.x 新规则
+
+        混淆压缩js文件，压缩css文件
+            // 用于压缩css文件
+            const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
+            // 用于压缩js文件
+            const UglifyJsPlugin = require("uglifyjs-webpack-plugin")
+            module.exports = {
+                ...,
+                optimization: {
+                    minimizer: [
+                        // 压缩js文件
+                        new UglifyJsPlugin({
+                            cache: true,
+                            parallel: true,
+                            sourceMap: false // set to true if you want JS source maps
+                        }),
+                        // 压缩 css文件
+                        new OptimizeCSSPlugin({})
+                    ]
+                }
+            }
 
 ##  用法
     
