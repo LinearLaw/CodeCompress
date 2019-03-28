@@ -306,40 +306,53 @@ html分为两种，一种是主html页面，一种是html片段
     因为html-loader和webpack冲突的关系，需要使用绝对路径，注意
         <img src="/assets/img/579eb391a7da9.jpg" alt="">
 
-    6、webpack 4.x 新规则
+6、webpack 4.x 新规则
 
-        混淆压缩js文件，压缩css文件
-            // 用于压缩css文件
-            const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
-            // 用于压缩js文件
-            const UglifyJsPlugin = require("uglifyjs-webpack-plugin")
-            module.exports = {
-                ...,
-                optimization: {
-                    minimizer: [
-                        // 压缩js文件
-                        new UglifyJsPlugin({
-                            cache: true,
-                            parallel: true,
-                            sourceMap: false // set to true if you want JS source maps
-                        }),
-                        // 压缩 css文件
-                        new OptimizeCSSPlugin({})
-                    ]
-                }
-            }
+       混淆压缩js文件，压缩css文件
+           // 用于压缩css文件
+           const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
+           // 用于压缩js文件
+           const UglifyJsPlugin = require("uglifyjs-webpack-plugin")
+           module.exports = {
+               ...,
+               optimization: {
+                   minimizer: [
+                       // 压缩js文件
+                       new UglifyJsPlugin({
+                           cache: true,
+                           parallel: true,
+                           sourceMap: false // set to true if you want JSsource maps
+                       }),
+                       // 压缩 css文件
+                       new OptimizeCSSPlugin({})
+                   ]
+               }
+           }
 
 ##  用法
 
-    2019-3-28 09:46:09
+2019-3-28 09:46:09
+
     修复了html-loader加载图片打包后路径错误的bug
     调整了项目结构
         1、修复了img引入路径错误的bug
         2、调整了dev-server的路径配置
+        3、原有的img文件夹归并到assets文件夹中，不再作为外部单独的文件夹。
+
+    新的src结构：
+        assets  assets用来放插件，图片文件，
+                    在打包时，assets里面的东西会全部原样复制到打包文件夹
+        html    html文件放在这里
+        css     css文件放在这里
+        less    less文件放在这里
+        js      js文件放这里
     
-    2019-3-4 15:58:27
-    大幅度修改了文件路径配置的数据结构，PAGE_NAME、JS_NAME进行了合并，
-    注意，这里的name都是指的是主html页面，html片段不需要写入。
+2019-3-4 15:58:27
+
+    1、大幅度修改了文件路径配置的数据结构；
+    2、PAGE_NAME、JS_NAME进行了合并；
+
+        注意，这里的name都是指的是主html页面，html片段不需要写入。
         const fileMap = {
             ROUTER:[
                 { 
@@ -368,53 +381,49 @@ html分为两种，一种是主html页面，一种是html片段
 
 
 
-    2018-9-21 11:32:29 
-        创建了html文件之后，放到src文件夹
+2018-9-21 11:32:29 
 
-            默认的src结构是这样的
-                assets  assets用来放插件，
+    创建了html文件之后，放到src文件夹
+
+    （已废弃，参见最新版）默认的src结构是这样的
+        assets  assets用来放插件，
                     在打包时，assets里面的东西会全部原样复制到打包文件夹
-                img     图片文件放在这里
-                html    html文件放在这里
-                css     css文件放在这里
-                less    less文件放在这里
-                js      js文件放这里
+        img     图片文件放在这里
+        html    html文件放在这里
+        css     css文件放在这里
+        less    less文件放在这里
+        js      js文件放这里
 
-            （用法参见最新版）随着开发创建的文件增多，需要加入一些配置
-                /config/name_config.js
+    （已废弃，用法参见最新版）随着开发创建的文件增多，需要加入一些配置
+            /config/name_config.js
 
-                const fileMap = {
-                    PAGE_NAME:[
-                        //写入html文件夹里面的所有html文件名称
-                    ],
-                    JS_NAME:[
-                        //写入js文件夹里面所有的js文件的名称
-                    ],
-                    ...
-                }
-            
-                Tips：注意，PAGE_NAME和JS_NAME的元素应该是一一对应的。
-                    也就是说，PAGE_NAME第n个元素，会对应到JS_NAME的第n个元素
-                    JS_NAME的元素是PAGE_NAME的入口文件。
-                    所以，每一个html文件都必定需要一个js入口文件。
-
-                其他的设置，可改可不改。
-                每次新创建了一个html文件和其对应js入口，都应当在name_config.js中注册
-                js入口可多个，写名字的时候写数组。
-
-                eg:
-                    PAGE_NAME:[
-                        "index_1",
-                        "index_2"
-                    ],
-                    其中，如果index_1.html的入口文件叫做index_1.js
-                    而index_2的入口文件有两个，一个叫utils.js，一个叫index_2.js
-                    于是JS_NAME就这样写：
-
-                    JS_NAME:[
-                        "index_1",
-                        ["index_2","utils"],
-                    ],
-
-
+            const fileMap = {
+                PAGE_NAME:[
+                    //写入html文件夹里面的所有html文件名称
+                ],
+                JS_NAME:[
+                    //写入js文件夹里面所有的js文件的名称
+                ],
+                ...
+            }
+        
+            Tips：注意，PAGE_NAME和JS_NAME的元素应该是一一对应的。
+                也就是说，PAGE_NAME第n个元素，会对应到JS_NAME的第n个元素
+                JS_NAME的元素是PAGE_NAME的入口文件。
+                所以，每一个html文件都必定需要一个js入口文件。
+            其他的设置，可改可不改。
+            每次新创建了一个html文件和其对应js入口，都应当在name_config.js中注册
+            js入口可多个，写名字的时候写数组。
+            eg:
+                PAGE_NAME:[
+                    "index_1",
+                    "index_2"
+                ],
+                其中，如果index_1.html的入口文件叫做index_1.js
+                而index_2的入口文件有两个，一个叫utils.js，一个叫index_2.js
+                于是JS_NAME就这样写：
+                JS_NAME:[
+                    "index_1",
+                    ["index_2","utils"],
+                ],
     
