@@ -269,18 +269,42 @@
                 ...
             ]
         },
+        
+html分为两种，一种是主html页面，一种是html片段
+
+    html片段是被引入到主html页面的，在打开浏览器时访问的是主html页面。
+    这点需要区分开。
+    （1）以下是一个主html页面的示例，
+        index.html
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <title>Document</title>
+            </head>
+            <body>
+                <%= require('html-loader!./html/header.html') %>
+                <h2>主页22111</h2>
+            </body>
+            </html>
+    
+    （2）以下是一个html片段的示例，不需要body、html、head这些标签
+        header.html
+            <h1>This is header , hello world</h1>
 
 
-        在模板中引入html：
-        index_1.html
-            <div>
-                <%= require('html-loader!./header.html') %>
-            </div>
+在主html页面中引入html片段和img：
 
-        在模板img标签中引入图片
-            <div>
-                <img src="<%= require('../img/card_1-line3.gif') %>" alt="">
-            </div>
+    index_1.html
+        <div>
+            <%= require('html-loader!./header.html') %>
+        </div>
+        <img src="<%= require('../img/card_1-line3.gif') %>" alt="">
+
+在html片段中引入img
+
+    因为html-loader和webpack冲突的关系，需要使用绝对路径，注意
+        <img src="/assets/img/579eb391a7da9.jpg" alt="">
 
     6、webpack 4.x 新规则
 
@@ -306,9 +330,16 @@
             }
 
 ##  用法
+
+    2019-3-28 09:46:09
+    修复了html-loader加载图片打包后路径错误的bug
+    调整了项目结构
+        1、修复了img引入路径错误的bug
+        2、调整了dev-server的路径配置
     
     2019-3-4 15:58:27
     大幅度修改了文件路径配置的数据结构，PAGE_NAME、JS_NAME进行了合并，
+    注意，这里的name都是指的是主html页面，html片段不需要写入。
         const fileMap = {
             ROUTER:[
                 { 
