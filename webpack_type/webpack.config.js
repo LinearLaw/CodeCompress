@@ -12,7 +12,7 @@ const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 // 用于压缩js文件
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin")
 
-const config = require("./config/dir_config.js");
+const config = require("./config/dir.middleware.js");
 
 module.exports = {
     mode:"production",

@@ -13,7 +13,7 @@ module.exports = webpackMerge(baseConfig, {
   mode: 'development',
   devtool: 'cheap-source-map',
   devServer: {
-    contentBase: path.resolve(__dirname,'..'),
+    contentBase: "./src",
     inline: true, //实时刷新
     hot: true
   },

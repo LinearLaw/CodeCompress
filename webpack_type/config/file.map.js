@@ -15,14 +15,6 @@ const fileMap = {
       name:'index_1',
       js:['index_1','utils'],
     },
-    {
-      name:'index_2',
-      js:'index_2'
-    },
-    {
-      name:'index_3',
-      js:'index_3'
-    }
   ],
   // dev目录配置项
   DEV:{

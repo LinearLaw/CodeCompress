@@ -1,5 +1,5 @@
 
-const fileMap = require( "./name_config.js");
+const fileMap = require( "./file.map.js");
 
 let defaultPage = {
   PAGE_NAME:[],
