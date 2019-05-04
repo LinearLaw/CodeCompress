@@ -14,6 +14,7 @@ const UglifyJsPlugin = require("uglifyjs-webpack-plugin")
 
 const config = require("./config/dir.middleware.js");
 
+
 module.exports = {
     mode:"production",
     entry:config.PAGE_CONFIG.JS_DIR, 
@@ -82,7 +83,7 @@ module.exports = {
                     collapseWhitespace:true //折叠空白区域 也就是压缩代码
                 },
                 hash:true,
-                title:'I love China',
+                title:'Title',
                 template: config.PAGE_CONFIG.PAGE_DIR[_in] //模板地址
             })
         }),
