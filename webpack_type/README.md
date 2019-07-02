@@ -436,6 +436,13 @@ ROUTER:[
 	<img src="/assets/img/579eb391a7da9.jpg" alt="">
 ```
 
+## Record Timeline
+
+2019-7-2 14:23:35
+```
+    修改了readme.md
+```
+
 2019-3-28 09:46:09
 
     修复了html-loader加载图片打包后路径错误的bug
