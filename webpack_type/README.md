@@ -335,100 +335,106 @@ html分为两种，一种是主html页面，一种是html片段
 
 ##  用法
 
-### （2019-4-15 14:40:17）如何新增一个html页面？
+### （2019-7-2 14:21:56）附、如何新增一个html页面？
 
-#### 一、需求：新增一个html页面，打包后的名字为project.html
+### step.1、新增一个html页面，打包后的名字为project.html
 
-    流程如下：
-    * 1、关闭开发环境服务器
-    
-    * 2、打开 config/file.map.js
-        ROUTER:[
-            ...
-            {
-              name:'../project',
-              js:'project'
-            },
-            ...
-         ],
-        ROUTER数组中新增一条，
-            name为相对于DEV.folder指向的文件夹的路径，project无需增加后缀名.html/.ejs
-            js为相对于 DEV.js_folder指向的文件夹的路径，无需增加后缀名.js
-    
-    * 3、src文件夹下创建文件 project.ejs
-        注意，在这里使用ejs作为html的载体。
-        
-    * 4、src/js  下创建文件 project.js
-        注意，webpack打包规则是以js作为入口文件，因此所有的html都至少需要有一个js文件
-            这个js文件里面是啥也不写也没得问题。
-    
-        至此，我们创建好了基本的project页面开发相关环境
+流程如下：
+* 1、关闭开发环境服务器
 
-#### 二、需求：给project页面，引用相关的公共css文件和公共的js文件
+* 2、打开 config/file.map.js
+```js
+ROUTER:[
+    ...
+    {
+        name:'../project',
+        js:'project'
+    },
+    ...
+],
+// ROUTER数组中新增一条，
+// name为相对于DEV.folder指向的文件夹的路径，project无需增加后名.html/.ejs
+// js为相对于 DEV.js_folder指向的文件夹的路径，无需增加后缀名.js
+```
+* 3、src文件夹下创建文件 project.ejs
+
+> 注意，在这里使用ejs作为html的载体。
+
+* 4、src/js  下创建文件 project.js
+
+> 注意，webpack打包规则是以js作为入口文件，因此所有的html都至少需要有一个js文件，
+> 这个js文件里面是啥也不写也没得问题。
+
+至此，我们创建好了基本的project页面开发相关环境
+
+### step.2、给project页面，引用相关的公共css文件和公共的js文件
 
 公共的css文件，可以直接在project.js中引入，路径为相对当前js的路径即可：
-
-    /src/js/project.js
-        import "../less/common.less";
-        import "../assets/bootstrap-carousel/css/bootstrap.min.css";
-
+```js
+/src/js/project.js
+    import "../less/common.less";
+    import "../assets/bootstrap-carousel/css/bootstrap.min.css";
+```
 公共的js文件，可以采取以下两种方式引入：
+- 1、使用es6模块方式，直接引入到入口文件 project.js
+```js
+/src/js/project.js
+	import * as utils from "../js/utils.js";
+```
 
-    1、使用es6模块方式，直接引入到入口文件 project.js
-    /src/js/project.js
-        import * as utils from "../js/utils.js";
+- 2、使用传统方式，以html标签的形式引入
+> 不采取直接在project.ejs中直接写script标签引入的方式，
+> 采用“html片段”引入的方式，因为html-loader和webpack模块化冲突的原因，
+> 
+> html片段内引入的资源路径全部都需要是“绝对路径”，且资源文件需要放在assets文件夹中；
 
+注意，html片段统一用html作为后缀，页面文件统一用ejs作为后缀；
 
-    2、使用传统方式，以html标签的形式引入
-        不采取直接在project.ejs中直接写script标签引入的方式，采用【html片段】引入的方式，
-        因html-loader和webpack模块化冲突的原因，
-        html片段内引入的资源路径全部都需要是【绝对路径】，且【资源文件需要放在assets文件夹中】；
-        
-        注意，html片段统一用html作为后缀，页面文件统一用ejs作为后缀；
-        
-    (1) 文件夹src/html中，新建文件 bootstrap.html，写入如下内容
-    
-        /src/html/bootstrap.html
-            <script src="/assets/jquery/jquery-1.12.4.min.js"></script>
-            <script src="/assets/bootstrap-carousel/js/bootstrap.min.js"></script>
-            
-    (2) 在页面文件project.ejs中引入该html片段，引入时使用【相对路径】即可
-    
-        /src/project.ejs
-            <!DOCTYPE html>
-            <html lang="en">
-            <head>
-                <meta charset="UTF-8">
-                <title>伟仕小贷</title>
-            </head>
-            <body>
-                <%= require('html-loader!./html/bootstrap.html') %> 
-            </body>
-            </html>        
+(1) 文件夹src/html中，新建文件 bootstrap.html，写入如下内容
+```js
+/src/html/bootstrap.html
+	<script src="/assets/jquery/jquery-1.12.4.min.js"></script>
+	<script src="/assets/bootstrap-carousel/js/bootstrap.min.js"></script>
+```
+(2) 在页面文件project.ejs中引入该html片段，引入时使用“相对路径”即可
+```js
+/src/project.ejs
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>标题</title>
+    </head>
+    <body>
+        <%= require('html-loader!./html/bootstrap.html') %> 
+    </body>
+    </html>        
+```
 
+### step.3、在ejs和html片段中引入img
 
-#### 三、需求：在ejs和html片段中引入img
+资源引用的路径规则和引入js类似。
 
-资源引用的路径规则和引入js类似
+(1) img引入到ejs文件中，使用【相对路径】
+```js
+/src/project.ejs
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>标题</title>
+    </head>
+    <body>
+        <img src="<%= require('./assets/img/card_1-line3.gif') %>" alt="">
+    </body>
+    </html> 
+```
 
-    (1) img引入到ejs文件中，使用【相对路径】
-    
-        /src/project.ejs
-            <!DOCTYPE html>
-            <html lang="en">
-            <head>
-                <meta charset="UTF-8">
-                <title>伟仕小贷</title>
-            </head>
-            <body>
-                <img src="<%= require('./assets/img/card_1-line3.gif') %>" alt="">
-            </body>
-            </html> 
-    
-    (2) img引入到html片段中，使用【绝对路径】
-    
-        /src/html/header.html
-            <img src="/assets/img/579eb391a7da9.jpg" alt="">
+(2) img引入到html片段中，使用【绝对路径】
+```js
+/src/html/header.html
+	<img src="/assets/img/579eb391a7da9.jpg" alt="">
+```
 
 2019-3-28 09:46:09
 
